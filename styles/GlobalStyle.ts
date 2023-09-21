@@ -5,7 +5,7 @@ export const DEV_BOX = {
 
 export const LARGE_BUTTON_CONTENT = {
   height: 80,
-  width: '100%',
+  // width: '100%',
 };
 
 export const LARGE_BUTTON_TEXT = {
