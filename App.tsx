@@ -1,118 +1,146 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, {useState} from 'react';
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {Provider as PaperProvider} from 'react-native-paper';
+import {Provider as ReduxProvider} from 'react-redux';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {RootStore} from './store/RootStore';
+import {MAT_LIGHT_THEME} from './styles/MaterialTheme';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import PanelButton from './components/PanelButton';
+import ResultModal from './components/ResultModal';
+import ActionScreen, {ACTION_SCREEN_NAME} from './screens/ActionScreen';
+import AuthScreen, {AUTH_SCREEN_NAME} from './screens/AuthScreen';
+import LocationSelectionScreen, {
+  LOCATION_SELECTION_SCREEN_NAME,
+} from './screens/LocationSelectionScreen';
+import TestScreen, {TEST_SCREEN_NAME} from './screens/TestScreen';
+import TypeADutuiesStackScreen, {
+  TYPE_A_DUTIES_STACK_SCREEN_NAME,
+} from './screens/TypeADutyStack/TypeADutiesStack';
+import TypeBDutiesStackScreen, {
+  TYPE_B_DUTIES_STACK_SCREEN_NAME,
+} from './screens/TypeBDutyStack/TypeBDutiesStack';
+import TypeCDutiesStackScreen, {
+  TYPE_C_DUTIES_STACK_SCREEN_NAME,
+} from './screens/TypeCDutyStack/TypeCDutiesStack';
+import {PANNEL_BUTTON_PADDING} from './styles/GlobalStyle';
+import {PANEL_BUTTON_MODE, RESULT_TYPE} from './types/UIType';
+import Logger, {MethodFormat} from './utils/Logger';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const Stack = createNativeStackNavigator();
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+export default function App(): JSX.Element {
+  const LIGHT_THEME = MAT_LIGHT_THEME;
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [isOpenResultModal, setIsOpenResultModal] = useState<boolean>(true);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const onCloseReusltModal = (): void => {
+    Logger.log(MethodFormat(`${onCloseReusltModal.name}`, ''), `${App.name}`);
+    setIsOpenResultModal(false);
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ReduxProvider store={RootStore}>
+      <SafeAreaView style={styles.main}>
+        <StatusBar />
+        <PaperProvider theme={LIGHT_THEME}>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName={AUTH_SCREEN_NAME}>
+              <Stack.Screen
+                name={AUTH_SCREEN_NAME}
+                component={AuthScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name={LOCATION_SELECTION_SCREEN_NAME}
+                component={LocationSelectionScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name={ACTION_SCREEN_NAME}
+                component={ActionScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name={TEST_SCREEN_NAME}
+                component={TestScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name={TYPE_A_DUTIES_STACK_SCREEN_NAME}
+                component={TypeADutuiesStackScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name={TYPE_B_DUTIES_STACK_SCREEN_NAME}
+                component={TypeBDutiesStackScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name={TYPE_C_DUTIES_STACK_SCREEN_NAME}
+                component={TypeCDutiesStackScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <ResultModal
+            visible={isOpenResultModal}
+            type={RESULT_TYPE.WARN}
+            title="NOT READY FOR Check-Out"
+            isHighlightTitle={true}
+            description="Tag: 2208230001-01"
+            onPressClose={onCloseReusltModal}
+            footerComponent={
+              <View style={styles.modalFooter}>
+                <View style={styles.modalFooterAction}>
+                  <PanelButton
+                    label="Back"
+                    mode={PANEL_BUTTON_MODE.OUTLINED}
+                    onPress={onCloseReusltModal}
+                  />
+                </View>
+                <View style={styles.modalFooterAction}>
+                  <PanelButton
+                    label={'Confirm\nDelivery'}
+                    onPress={onCloseReusltModal}
+                  />
+                </View>
+              </View>
+            }
+          />
+        </PaperProvider>
+      </SafeAreaView>
+    </ReduxProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  main: {
+    flex: 1,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  modalFooter: {
+    flex: 1,
+    flexDirection: 'row',
+    marginBottom: 6,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  modalFooterAction: {
+    flex: 1,
+    padding: PANNEL_BUTTON_PADDING,
   },
 });
-
-export default App;
