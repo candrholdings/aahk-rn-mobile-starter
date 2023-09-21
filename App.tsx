@@ -25,7 +25,7 @@ import TypeBDutiesStackScreen, {
 import TypeCDutiesStackScreen, {
   TYPE_C_DUTIES_STACK_SCREEN_NAME,
 } from './screens/TypeCDutyStack/TypeCDutiesStack';
-import {PANNEL_BUTTON_PADDING} from './styles/GlobalStyle';
+import {PANEL_BUTTON_PADDING} from './styles/GlobalStyle';
 import {PANEL_BUTTON_MODE, RESULT_TYPE} from './types/UIType';
 import Logger, {MethodFormat} from './utils/Logger';
 
@@ -141,6 +141,6 @@ const styles = StyleSheet.create({
   },
   modalFooterAction: {
     flex: 1,
-    padding: PANNEL_BUTTON_PADDING,
+    padding: PANEL_BUTTON_PADDING,
   },
 });
