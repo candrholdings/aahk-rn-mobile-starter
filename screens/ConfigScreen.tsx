@@ -2,7 +2,7 @@ import React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StyleSheet, View} from 'react-native';
 import {TextInput as MatTextInput} from 'react-native-paper';
-import {FLEX_PAGE} from '../styles/GlobalStyle';
+import {FLEX_PAGE, FORM_CONTROL_ROW} from '../styles/GlobalStyle';
 import Picker, {IPickerOption} from '../components/Picker';
 import MatButton from '../components/MatButton';
 import {AUTH_SCREEN_NAME} from './AuthScreen';
@@ -50,11 +50,7 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
 
 const styles = StyleSheet.create({
   page: FLEX_PAGE(12),
-  formControl: {
-    width: '100%',
-    marginTop: 12,
-    height: 62,
-  },
+  formControl: FORM_CONTROL_ROW(),
   button: {
     marginTop: 'auto',
     height: 66,
