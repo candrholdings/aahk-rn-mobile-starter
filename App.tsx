@@ -28,16 +28,17 @@ import TypeCDutiesStackScreen, {
 import {PANEL_BUTTON_PADDING} from './styles/GlobalStyle';
 import {PANEL_BUTTON_MODE, RESULT_TYPE} from './types/UIType';
 import Logger, {MethodFormat} from './utils/Logger';
+import ConfigScreen, {CONFIG_SCREEN_NAME} from './screens/ConfigScreen';
 
 const Stack = createNativeStackNavigator();
 
 export default function App(): JSX.Element {
   const LIGHT_THEME = MAT_LIGHT_THEME;
 
-  const [isOpenResultModal, setIsOpenResultModal] = useState<boolean>(true);
+  const [isOpenResultModal, setIsOpenResultModal] = useState<boolean>(false);
 
-  const onCloseReusltModal = (): void => {
-    Logger.log(MethodFormat(`${onCloseReusltModal.name}`, ''), `${App.name}`);
+  const onCloseResultModal = (): void => {
+    Logger.log(MethodFormat(`${onCloseResultModal.name}`, ''), `${App.name}`);
     setIsOpenResultModal(false);
   };
 
@@ -47,7 +48,14 @@ export default function App(): JSX.Element {
         <StatusBar />
         <PaperProvider theme={LIGHT_THEME}>
           <NavigationContainer>
-            <Stack.Navigator initialRouteName={AUTH_SCREEN_NAME}>
+            <Stack.Navigator initialRouteName={CONFIG_SCREEN_NAME}>
+              <Stack.Screen
+                name={CONFIG_SCREEN_NAME}
+                component={ConfigScreen}
+                options={{
+                  headerShown: false,
+                }}
+              />
               <Stack.Screen
                 name={AUTH_SCREEN_NAME}
                 component={AuthScreen}
@@ -105,20 +113,20 @@ export default function App(): JSX.Element {
             title="NOT READY FOR Check-Out"
             isHighlightTitle={true}
             description="Tag: 2208230001-01"
-            onPressClose={onCloseReusltModal}
+            onPressClose={onCloseResultModal}
             footerComponent={
               <View style={styles.modalFooter}>
                 <View style={styles.modalFooterAction}>
                   <PanelButton
                     label="Back"
                     mode={PANEL_BUTTON_MODE.OUTLINED}
-                    onPress={onCloseReusltModal}
+                    onPress={onCloseResultModal}
                   />
                 </View>
                 <View style={styles.modalFooterAction}>
                   <PanelButton
                     label={'Confirm\nDelivery'}
-                    onPress={onCloseReusltModal}
+                    onPress={onCloseResultModal}
                   />
                 </View>
               </View>

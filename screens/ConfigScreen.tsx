@@ -2,12 +2,12 @@ import React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StyleSheet, View, Text} from 'react-native';
 
-export const DELIVER_SCREEN_NAME = 'DELIVER';
+export const CONFIG_SCREEN_NAME = 'CONFIG';
 
-export default function DeliverScreen(props: NativeStackScreenProps<any>) {
+export default function ConfigScreen(props: NativeStackScreenProps<any>) {
   return (
     <View style={styles.container}>
-      <Text>DeliverScreen Component works !</Text>
+      <Text>ConfigScreen Component works !</Text>
     </View>
   );
 }
