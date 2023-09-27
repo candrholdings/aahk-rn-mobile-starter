@@ -1,14 +1,16 @@
 import React from 'react';
-// import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StyleSheet, View} from 'react-native';
 import {TextInput as MatTextInput} from 'react-native-paper';
 import {FLEX_PAGE} from '../styles/GlobalStyle';
 import Picker, {IPickerOption} from '../components/Picker';
 import MatButton from '../components/MatButton';
+import {AUTH_SCREEN_NAME} from './AuthScreen';
+import Logger, {MethodFormat} from '../utils/Logger';
 
 export const CONFIG_SCREEN_NAME = 'CONFIG';
 
-export default function ConfigScreen() {
+export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
   const languageOptions: IPickerOption[] = [
     {
       label: '繁體中文',
@@ -19,6 +21,15 @@ export default function ConfigScreen() {
       value: 'en',
     },
   ];
+
+  const onSave = (): void => {
+    Logger.log(
+      MethodFormat(`${onSave.name}`, 'to Auth Screen'),
+      `${ConfigScreen.name}`,
+    );
+    screenProps.navigation.navigate(AUTH_SCREEN_NAME, {});
+  };
+
   return (
     <View style={styles.page}>
       <View style={styles.formControl}>
@@ -31,7 +42,7 @@ export default function ConfigScreen() {
         <Picker options={languageOptions} />
       </View>
       <View style={styles.button}>
-        <MatButton label="Save" />
+        <MatButton label="Save" onPress={onSave} />
       </View>
     </View>
   );
