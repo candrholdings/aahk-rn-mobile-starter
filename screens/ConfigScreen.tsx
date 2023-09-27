@@ -1,22 +1,51 @@
 import React from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {StyleSheet, View, Text} from 'react-native';
+// import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StyleSheet, View} from 'react-native';
+import {TextInput as MatTextInput} from 'react-native-paper';
+import {FLEX_PAGE} from '../styles/GlobalStyle';
+import Picker, {IPickerOption} from '../components/Picker';
+import MatButton from '../components/MatButton';
 
 export const CONFIG_SCREEN_NAME = 'CONFIG';
 
-export default function ConfigScreen(props: NativeStackScreenProps<any>) {
+export default function ConfigScreen() {
+  const languageOptions: IPickerOption[] = [
+    {
+      label: '繁體中文',
+      value: 'zhHK',
+    },
+    {
+      label: 'English',
+      value: 'en',
+    },
+  ];
   return (
-    <View style={styles.container}>
-      <Text>ConfigScreen Component works !</Text>
+    <View style={styles.page}>
+      <View style={styles.formControl}>
+        <MatTextInput mode={'outlined'} label="Setting1" />
+      </View>
+      <View style={styles.formControl}>
+        <MatTextInput mode={'outlined'} label="Setting2" />
+      </View>
+      <View style={styles.formControl}>
+        <Picker options={languageOptions} />
+      </View>
+      <View style={styles.button}>
+        <MatButton label="Save" />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  page: FLEX_PAGE(12),
+  formControl: {
+    width: '100%',
+    marginTop: 12,
+    height: 62,
+  },
+  button: {
+    marginTop: 'auto',
+    height: 66,
   },
 });
