@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text as MatText} from 'react-native-paper';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -10,6 +10,7 @@ import Button from '../components/Button';
 import Picker, {IPickerOption} from '../components/Picker';
 
 import {LOCATION_SELECTION_SCREEN_NAME} from './LocationSelectionScreen';
+import {CONFIG_SCREEN_NAME} from './ConfigScreen';
 
 export const AUTH_SCREEN_NAME = 'AUTH';
 
@@ -27,6 +28,14 @@ export default function AuthScreen(props: NativeStackScreenProps<any>) {
     },
   ];
 
+  const onClickProjectName = (): void => {
+    Logger.log(
+      MethodFormat(`${onClickProjectName.name}`, ''),
+      `${AuthScreen.name}`,
+    );
+    props.navigation.navigate(CONFIG_SCREEN_NAME, {});
+  };
+
   const onSelected = (lang: IPickerOption['value']): void => {
     Logger.log(MethodFormat(`${onSelected.name}`, lang), `${AuthScreen.name}`);
     setSelectedLang(lang);
@@ -41,9 +50,11 @@ export default function AuthScreen(props: NativeStackScreenProps<any>) {
     <View style={styles.container}>
       <View style={styles.logoBox}>
         <AAHKLogo />
-        <MatText variant="headlineSmall" style={styles.projectNameText}>
-          AAHK STARTER
-        </MatText>
+        <TouchableOpacity onPress={onClickProjectName}>
+          <MatText variant="headlineSmall" style={styles.projectNameText}>
+            AAHK STARTER
+          </MatText>
+        </TouchableOpacity>
       </View>
       <View style={styles.actionBox}>
         <View style={styles.pickerBox}>
