@@ -9,8 +9,8 @@ import AAHKLogo from '../components/AAHKLogo';
 import Button from '../components/Button';
 import Picker, {IPickerOption} from '../components/Picker';
 
-import {LOCATION_SELECTION_SCREEN_NAME} from './LocationSelectionScreen';
 import {CONFIG_SCREEN_NAME} from './ConfigScreen';
+import {DEMO_STACK_NAME} from './DemoStack/DemoStack';
 
 export const AUTH_SCREEN_NAME = 'AUTH';
 
@@ -43,7 +43,7 @@ export default function AuthScreen(props: NativeStackScreenProps<any>) {
 
   const onLogin = (): void => {
     Logger.log(MethodFormat(`${onLogin.name}`, ''), `${AuthScreen.name}`);
-    props.navigation.navigate(LOCATION_SELECTION_SCREEN_NAME, {});
+    props.navigation.navigate(DEMO_STACK_NAME, {});
   };
 
   return (

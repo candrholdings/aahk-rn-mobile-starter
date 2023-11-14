@@ -10,25 +10,12 @@ import {MAT_LIGHT_THEME} from './styles/MaterialTheme';
 
 import PanelButton from './components/PanelButton';
 import ResultModal from './components/ResultModal';
-import ActionScreen, {ACTION_SCREEN_NAME} from './screens/ActionScreen';
 import AuthScreen, {AUTH_SCREEN_NAME} from './screens/AuthScreen';
-import LocationSelectionScreen, {
-  LOCATION_SELECTION_SCREEN_NAME,
-} from './screens/LocationSelectionScreen';
-import TestScreen, {TEST_SCREEN_NAME} from './screens/TestScreen';
-import TypeADutuiesStackScreen, {
-  TYPE_A_DUTIES_STACK_SCREEN_NAME,
-} from './screens/TypeADutyStack/TypeADutiesStack';
-import TypeBDutiesStackScreen, {
-  TYPE_B_DUTIES_STACK_SCREEN_NAME,
-} from './screens/TypeBDutyStack/TypeBDutiesStack';
-import TypeCDutiesStackScreen, {
-  TYPE_C_DUTIES_STACK_SCREEN_NAME,
-} from './screens/TypeCDutyStack/TypeCDutiesStack';
 import {PANEL_BUTTON_PADDING} from './styles/GlobalStyle';
 import {PANEL_BUTTON_MODE, RESULT_TYPE} from './types/UIType';
 import Logger, {MethodFormat} from './utils/Logger';
 import ConfigScreen, {CONFIG_SCREEN_NAME} from './screens/ConfigScreen';
+import DemoStack, {DEMO_STACK_NAME} from './screens/DemoStack/DemoStack';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,43 +51,8 @@ export default function App(): JSX.Element {
                 }}
               />
               <Stack.Screen
-                name={LOCATION_SELECTION_SCREEN_NAME}
-                component={LocationSelectionScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name={ACTION_SCREEN_NAME}
-                component={ActionScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name={TEST_SCREEN_NAME}
-                component={TestScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name={TYPE_A_DUTIES_STACK_SCREEN_NAME}
-                component={TypeADutuiesStackScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name={TYPE_B_DUTIES_STACK_SCREEN_NAME}
-                component={TypeBDutiesStackScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name={TYPE_C_DUTIES_STACK_SCREEN_NAME}
-                component={TypeCDutiesStackScreen}
+                name={DEMO_STACK_NAME}
+                component={DemoStack}
                 options={{
                   headerShown: false,
                 }}
