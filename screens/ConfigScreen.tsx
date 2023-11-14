@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Alert} from 'react-native';
 import {
   TextInput as MatTextInput,
   Switch as MatSwitch,
@@ -20,6 +20,15 @@ import Logger, {MethodFormat} from '../utils/Logger';
 export const CONFIG_SCREEN_NAME = 'CONFIG';
 
 export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
+  const [formData, setFormData] = useState({
+    settingOne: '',
+    settingTwo: '',
+    settingThree: '',
+    settingFour: '',
+    settingFive: '',
+    selection: '',
+    switch: false,
+  });
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const languageOptions: IPickerOption[] = [
     {
@@ -32,7 +41,32 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
     },
   ];
 
+  const handleFormTextChange = (e: any, formCtrName: string) => {
+    // * Check formCtrlName is valid
+    if (!(formCtrName in formData)) {
+      Logger.log(
+        MethodFormat(
+          `${handleFormTextChange.name}`,
+          `FomCtrlName: ${formCtrName} is not set in formData`,
+        ),
+        `${ConfigScreen.name}`,
+      );
+      Alert.alert(
+        '[ DEV ERROR ]',
+        `FomCtrlName: ${formCtrName} is not set in formData`,
+      );
+      return;
+    }
+    setFormData(prevFormData => {
+      return {
+        ...prevFormData,
+        [formCtrName]: e.nativeEvent.text,
+      };
+    });
+  };
+
   const onToggleSwitch = (): void => {
+    console.log('Hello');
     Logger.log(
       MethodFormat(`${onToggleSwitch.name}`, `${isSwitchOn} => ${!isSwitchOn}`),
       `${ConfigScreen.name}`,
@@ -42,7 +76,7 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
 
   const onSave = (): void => {
     Logger.log(
-      MethodFormat(`${onSave.name}`, 'to Auth Screen'),
+      MethodFormat(`${onSave.name}`, `${JSON.stringify(formData, null, 4)}`),
       `${ConfigScreen.name}`,
     );
     screenProps.navigation.navigate(AUTH_SCREEN_NAME, {});
@@ -51,19 +85,50 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
   return (
     <View style={styles.page}>
       <View style={styles.formControl}>
-        <MatTextInput mode={'outlined'} label="Setting1" />
+        <MatTextInput
+          data-set="setting1"
+          mode={'outlined'}
+          label="Setting1"
+          left={<MatTextInput.Icon icon="application-cog-outline" />}
+          value={formData.settingOne}
+          onChange={e => handleFormTextChange(e, 'settingOne')}
+        />
       </View>
       <View style={styles.formControl}>
-        <MatTextInput mode={'outlined'} label="Setting2" />
+        <MatTextInput
+          mode={'outlined'}
+          label="Setting2"
+          left={<MatTextInput.Icon icon="cog-box" />}
+          value={formData.settingTwo}
+          onChange={e => handleFormTextChange(e, 'settingTwo')}
+        />
       </View>
       <View style={styles.formControl}>
-        <MatTextInput mode={'outlined'} label="Setting3" />
+        <MatTextInput
+          mode={'outlined'}
+          label="Setting3"
+          left={<MatTextInput.Icon icon="cog-box" />}
+          value={formData.settingThree}
+          onChange={e => handleFormTextChange(e, 'settingThree')}
+        />
       </View>
       <View style={styles.formControl}>
-        <MatTextInput mode={'outlined'} label="Setting4" />
+        <MatTextInput
+          mode={'outlined'}
+          label="Setting4"
+          left={<MatTextInput.Icon icon="cog-box" />}
+          value={formData.settingFour}
+          onChange={e => handleFormTextChange(e, 'settingFour')}
+        />
       </View>
       <View style={styles.formControl}>
-        <MatTextInput mode={'outlined'} label="Setting5" />
+        <MatTextInput
+          mode={'outlined'}
+          label="Setting5"
+          left={<MatTextInput.Icon icon="cog-box" />}
+          value={formData.settingFive}
+          onChange={e => handleFormTextChange(e, 'settingFive')}
+        />
       </View>
       <View style={styles.formControl}>
         <Picker options={languageOptions} />
