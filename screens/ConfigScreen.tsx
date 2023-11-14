@@ -66,6 +66,10 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
   };
 
   const onPickerSelected = (value: string) => {
+    Logger.log(
+      MethodFormat(`${onPickerSelected.name}`, `${value}`),
+      `${ConfigScreen.name}`,
+    );
     setFormData(prevFormData => {
       return {
         ...prevFormData,

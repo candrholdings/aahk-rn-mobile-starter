@@ -1,3 +1,3 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 const NavDrawer = createDrawerNavigator();
 export default NavDrawer;
