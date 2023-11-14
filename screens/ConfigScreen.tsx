@@ -20,16 +20,6 @@ import Logger, {MethodFormat} from '../utils/Logger';
 export const CONFIG_SCREEN_NAME = 'CONFIG';
 
 export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
-  const [formData, setFormData] = useState({
-    settingOne: '',
-    settingTwo: '',
-    settingThree: '',
-    settingFour: '',
-    settingFive: '',
-    selection: '',
-    switch: false,
-  });
-  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
   const languageOptions: IPickerOption[] = [
     {
       label: '繁體中文',
@@ -40,11 +30,27 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
       value: 'en',
     },
   ];
+  const [formData, setFormData] = useState({
+    settingOne: '',
+    settingTwo: '',
+    settingThree: '',
+    settingFour: '',
+    settingFive: '',
+    selection: languageOptions[0].value,
+    switch: false,
+  });
 
-  const handleFormTextChange = (e: any, formCtrName: string) => {
+  const handleFormTextChange = (e: any, formCtrName: keyof typeof formData) => {
     // * Check formCtrlName is valid
-    if (!(formCtrName in formData)) {
-      Logger.log(
+    if (formCtrName in formData) {
+      setFormData(prevFormData => {
+        return {
+          ...prevFormData,
+          [formCtrName]: e.nativeEvent.text,
+        };
+      });
+    } else {
+      Logger.error(
         MethodFormat(
           `${handleFormTextChange.name}`,
           `FomCtrlName: ${formCtrName} is not set in formData`,
@@ -57,21 +63,24 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
       );
       return;
     }
+  };
+
+  const onPickerSelected = (value: string) => {
     setFormData(prevFormData => {
       return {
         ...prevFormData,
-        [formCtrName]: e.nativeEvent.text,
+        selection: value,
       };
     });
   };
 
   const onToggleSwitch = (): void => {
-    console.log('Hello');
+    const prevSwitch = formData.switch;
     Logger.log(
-      MethodFormat(`${onToggleSwitch.name}`, `${isSwitchOn} => ${!isSwitchOn}`),
+      MethodFormat(`${onToggleSwitch.name}`, `${prevSwitch} => ${!prevSwitch}`),
       `${ConfigScreen.name}`,
     );
-    setIsSwitchOn(!isSwitchOn);
+    _toggleFormData('switch');
   };
 
   const onSave = (): void => {
@@ -80,6 +89,30 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
       `${ConfigScreen.name}`,
     );
     screenProps.navigation.navigate(AUTH_SCREEN_NAME, {});
+  };
+
+  const _toggleFormData = (formCtrlName: keyof typeof formData) => {
+    if (formCtrlName in formData) {
+      const prevBool = formData[formCtrlName];
+      setFormData(prevFormData => {
+        return {
+          ...prevFormData,
+          [formCtrlName]: !prevBool,
+        };
+      });
+    } else {
+      Logger.error(
+        MethodFormat(
+          `${_toggleFormData.name}`,
+          `FomCtrlName: ${formCtrlName} is not set in formData`,
+        ),
+        `${ConfigScreen.name}`,
+      );
+      Alert.alert(
+        '[ DEV ERROR ]',
+        `FomCtrlName: ${formCtrlName} is not set in formData`,
+      );
+    }
   };
 
   return (
@@ -131,11 +164,15 @@ export default function ConfigScreen(screenProps: NativeStackScreenProps<any>) {
         />
       </View>
       <View style={styles.formControl}>
-        <Picker options={languageOptions} />
+        <Picker
+          options={languageOptions}
+          value={formData.selection}
+          onSelected={onPickerSelected}
+        />
       </View>
       <View style={styles.switchFormControl}>
         <MatText variant="titleMedium">設定開關</MatText>
-        <MatSwitch value={isSwitchOn} onValueChange={onToggleSwitch} />
+        <MatSwitch value={formData.switch} onValueChange={onToggleSwitch} />
       </View>
       <View style={styles.button}>
         <MatButton label="Save" onPress={onSave} />
