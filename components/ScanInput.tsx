@@ -45,6 +45,7 @@ export default function ScanInput(props: IScanInput) {
       mode={'outlined'}
       label={props.label}
       value={props.value}
+      onChangeText={props.onValueChanged}
       left={<MatTextInput.Icon icon="barcode-scan" />}
     />
   );
