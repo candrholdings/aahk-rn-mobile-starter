@@ -1,12 +1,23 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import ScanInput from '../../components/ScanInput';
+import HoneywellScanImage from '../../components/HoneywellScanImage';
 
 export const SCAN_SCREEN_NAME = 'SCAN_SCREEN';
 
 export default function ScanScreen() {
+  const handleScanned = (data: string) => {
+    console.log(data);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>ScanScreen Component works !</Text>
+      <View style={styles.image}>
+        <HoneywellScanImage />
+      </View>
+      <View style={styles.input}>
+        <ScanInput label="Scan Test" onScanned={handleScanned} />
+      </View>
     </View>
   );
 }
@@ -14,8 +25,14 @@ export default function ScanScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  image: {
+    flex: 2,
+    backgroundColor: 'white',
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  input: {
+    flex: 1,
   },
 });
