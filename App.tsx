@@ -1,5 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import React, {useState} from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
@@ -21,6 +22,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App(): JSX.Element {
   const LIGHT_THEME = MAT_LIGHT_THEME;
+  const queryClient = new QueryClient();
 
   const [isOpenResultModal, setIsOpenResultModal] = useState<boolean>(false);
 
@@ -30,63 +32,65 @@ export default function App(): JSX.Element {
   };
 
   return (
-    <ReduxProvider store={RootStore}>
-      <SafeAreaView style={styles.main}>
-        <StatusBar />
-        <PaperProvider theme={LIGHT_THEME}>
-          <NavigationContainer>
-            <Stack.Navigator initialRouteName={CONFIG_SCREEN_NAME}>
-              <Stack.Screen
-                name={CONFIG_SCREEN_NAME}
-                component={ConfigScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name={AUTH_SCREEN_NAME}
-                component={AuthScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name={DEMO_STACK_NAME}
-                component={DemoStack}
-                options={{
-                  headerShown: false,
-                }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-          <ResultModal
-            visible={isOpenResultModal}
-            type={RESULT_TYPE.WARN}
-            title="NOT READY FOR Check-Out"
-            isHighlightTitle={true}
-            description="Tag: 2208230001-01"
-            onPressClose={onCloseResultModal}
-            footerComponent={
-              <View style={styles.modalFooter}>
-                <View style={styles.modalFooterAction}>
-                  <PanelButton
-                    label="Back"
-                    mode={PANEL_BUTTON_MODE.OUTLINED}
-                    onPress={onCloseResultModal}
-                  />
+    <QueryClientProvider client={queryClient}>
+      <ReduxProvider store={RootStore}>
+        <SafeAreaView style={styles.main}>
+          <StatusBar />
+          <PaperProvider theme={LIGHT_THEME}>
+            <NavigationContainer>
+              <Stack.Navigator initialRouteName={CONFIG_SCREEN_NAME}>
+                <Stack.Screen
+                  name={CONFIG_SCREEN_NAME}
+                  component={ConfigScreen}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name={AUTH_SCREEN_NAME}
+                  component={AuthScreen}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name={DEMO_STACK_NAME}
+                  component={DemoStack}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+            <ResultModal
+              visible={isOpenResultModal}
+              type={RESULT_TYPE.WARN}
+              title="NOT READY FOR Check-Out"
+              isHighlightTitle={true}
+              description="Tag: 2208230001-01"
+              onPressClose={onCloseResultModal}
+              footerComponent={
+                <View style={styles.modalFooter}>
+                  <View style={styles.modalFooterAction}>
+                    <PanelButton
+                      label="Back"
+                      mode={PANEL_BUTTON_MODE.OUTLINED}
+                      onPress={onCloseResultModal}
+                    />
+                  </View>
+                  <View style={styles.modalFooterAction}>
+                    <PanelButton
+                      label={'Confirm\nDelivery'}
+                      onPress={onCloseResultModal}
+                    />
+                  </View>
                 </View>
-                <View style={styles.modalFooterAction}>
-                  <PanelButton
-                    label={'Confirm\nDelivery'}
-                    onPress={onCloseResultModal}
-                  />
-                </View>
-              </View>
-            }
-          />
-        </PaperProvider>
-      </SafeAreaView>
-    </ReduxProvider>
+              }
+            />
+          </PaperProvider>
+        </SafeAreaView>
+      </ReduxProvider>
+    </QueryClientProvider>
   );
 }
 
