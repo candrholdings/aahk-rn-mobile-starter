@@ -10,6 +10,7 @@ export interface IScanInput {
   value?: string;
   onScannerReady?: () => void;
   onScanned?: (data: string) => void;
+  onStoppedScan?: () => void;
   onValueChanged?: (data: string) => void;
 }
 
@@ -33,6 +34,9 @@ export default function ScanInput(props: IScanInput) {
         return () => {
           HoneywellScanner.stopReader().then(() => {
             HoneywellScanner.offBarcodeReadSuccess();
+            if (props.onStoppedScan) {
+              props.onStoppedScan();
+            }
           });
         };
       }
