@@ -4,6 +4,7 @@ import RouteContainer from '../../components/RouteContainer';
 import {IRouteConfig} from '../../types/UIType';
 import DemoScreen, {DEMO_SCREEN_NAME} from './DemoScreen';
 import ScanScreen, {SCAN_SCREEN_NAME} from './ScanScreen';
+import ApiScreen, {API_SCREEN_NAME} from './ApiScreen';
 
 export const DEMO_STACK_NAME = 'DEMO_STACK';
 
@@ -29,6 +30,16 @@ export default function DemoStack() {
         drawerIcon: <MatComIcon name="alpha-s-box-outline" />,
         name: SCAN_SCREEN_NAME,
         component: ScanScreen,
+        screenOptions: {},
+        toScreenName: '',
+        isHide: false,
+        isScreen: true,
+      },
+      {
+        drawerLabel: 'API',
+        drawerIcon: <MatComIcon name="alpha-a-box-outline" />,
+        name: API_SCREEN_NAME,
+        component: ApiScreen,
         screenOptions: {},
         toScreenName: '',
         isHide: false,
