@@ -1,8 +1,8 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
-import React, {useState} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, StatusBar, StyleSheet, View, LogBox} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider as ReduxProvider} from 'react-redux';
 
@@ -23,6 +23,11 @@ const Stack = createNativeStackNavigator();
 export default function App(): JSX.Element {
   const LIGHT_THEME = MAT_LIGHT_THEME;
   const queryClient = new QueryClient();
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['new NativeEventEmitter']);
+    LogBox.ignoreAllLogs();
+  }, []);
 
   const [isOpenResultModal, setIsOpenResultModal] = useState<boolean>(false);
 
