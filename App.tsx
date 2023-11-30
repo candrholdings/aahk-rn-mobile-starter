@@ -5,6 +5,10 @@ import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StatusBar, StyleSheet, View, LogBox} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider as ReduxProvider} from 'react-redux';
+// import {
+//   initializeSslPinning,
+//   isSslPinningAvailable,
+// } from 'react-native-ssl-public-key-pinning';
 
 import {RootStore} from './store/RootStore';
 import {MAT_LIGHT_THEME} from './styles/MaterialTheme';
@@ -27,6 +31,19 @@ export default function App(): JSX.Element {
   useEffect(() => {
     LogBox.ignoreLogs(['new NativeEventEmitter']);
     LogBox.ignoreAllLogs();
+    (async function init() {
+      try {
+        console.log('TESTING FETCH');
+        const data = await fetch(
+          'https://jsonplaceholder.typicode.com/todos/1',
+        );
+        const json = data.json();
+        console.log(json);
+        console.log('TESTING FETCH DONE');
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
 
   const [isOpenResultModal, setIsOpenResultModal] = useState<boolean>(false);
